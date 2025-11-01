@@ -9,4 +9,9 @@ const makeGreeting = async () => {
   console.log(`Welcome to the File Manager, ${userName}!`);
 };
 
-export default { makeGreeting };
+const makeFarewell = async () => {
+  const userName = await getName();
+  console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
+};
+
+export default { makeGreeting, makeFarewell };
