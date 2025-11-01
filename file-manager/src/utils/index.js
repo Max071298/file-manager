@@ -14,4 +14,9 @@ const makeFarewell = async () => {
   console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
 };
 
-export default { makeGreeting, makeFarewell };
+const getPath = async () => {
+  const _dirname = await import.meta.dirname;
+  console.log(`You are currently in ${_dirname}`);
+};
+
+export default { makeGreeting, makeFarewell, getPath };
