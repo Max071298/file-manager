@@ -29,14 +29,6 @@ const addFile = (fileName) => {
   }
 };
 
-const makeDir = (dirName) => {
-  fs.mkdir(dirName, { recursive: true }, (e) => {
-    if (e) console.error('Operation failed');
-  });
-
-  console.log(`Directory ${dirName} created`);
-};
-
 const renameFile = async (pathToFile, newName) => {
   await fs.rename(
     pathToFile,
@@ -91,7 +83,6 @@ const moveFile = async (pathToFile, pathToNewDir) => {
 export default {
   readFile,
   addFile,
-  makeDir,
   renameFile,
   deleteFile,
   copyFile,
