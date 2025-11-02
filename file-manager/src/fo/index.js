@@ -1,17 +1,20 @@
 import fs from 'fs';
 import { pipeline } from 'stream/promises';
 import path from 'path';
+import utils from '../utils/index.js';
 
 const readFile = async (pathToFile) => {
-  try {
-    const content = fs.createReadStream(pathToFile, {
-      encoding: 'utf-8',
-    });
+  if (await utils.isFile(pathToFile)) {
+    try {
+      const content = fs.createReadStream(pathToFile, {
+        encoding: 'utf-8',
+      });
 
-    await pipeline(content, process.stdout, { end: false });
-    console.log('pipeline succeeded');
-  } catch {
-    console.error('Operation failed');
+      await pipeline(content, process.stdout, { end: false });
+      console.log('pipeline succeeded');
+    } catch {
+      console.error('Invalid input');
+    }
   }
 };
 
@@ -34,10 +37,16 @@ const makeDir = (dirName) => {
   console.log(`Directory ${dirName} created`);
 };
 
-const renameFile = (pathToFile, newName) => {
-  fs.rename(pathToFile, newName, (e) => {
-    if (e) console.error('Operation failed');
-  });
+const renameFile = async (pathToFile, newName) => {
+  await fs.rename(
+    pathToFile,
+    path.join(path.dirname(pathToFile), newName),
+    (e) => {
+      if (e) console.error('Operation failed');
+    }
+  );
+
+  console.log('File renamed');
 };
 
 const deleteFile = (pathToFile) => {
@@ -46,25 +55,32 @@ const deleteFile = (pathToFile) => {
   });
 };
 
-const copyFile = (pathToFile, pathToNewDir) => {
-  const fileName = path.basename(pathToFile);
+const copyFile = async (pathToFile, pathToNewDir) => {
+  if (
+    (await utils.isFile(pathToFile)) &&
+    (await utils.isDirectory(pathToNewDir))
+  ) {
+    const fileName = path.basename(pathToFile);
 
-  const readStream = fs.createReadStream(pathToFile);
-  const writeStream = fs.createWriteStream(path.join(pathToNewDir, fileName));
+    const readStream = fs.createReadStream(pathToFile);
+    const writeStream = fs.createWriteStream(path.join(pathToNewDir, fileName));
 
-  readStream.pipe(writeStream);
+    readStream.pipe(writeStream);
 
-  readStream.on('end', () => {
-    console.log('File copied successfully!');
-  });
+    readStream.on('end', () => {
+      console.log('File copied successfully!');
+    });
 
-  readStream.on('error', () => {
-    console.error('Operation failed');
-  });
+    readStream.on('error', () => {
+      console.error('Operation failed');
+    });
 
-  writeStream.on('error', () => {
-    console.error('Operation failed');
-  });
+    writeStream.on('error', () => {
+      console.error('Operation failed');
+    });
+  } else {
+    console.error('Invalid input');
+  }
 };
 
 const moveFile = async (pathToFile, pathToNewDir) => {

@@ -2,6 +2,7 @@ import fs from 'fs';
 import utils from '../utils/index.js';
 import path from 'path';
 import zlib from 'zlib';
+
 const zipFile = async (pathToFile, pathToDestination) => {
   if (
     (await utils.isFile(pathToFile)) &&
@@ -12,9 +13,18 @@ const zipFile = async (pathToFile, pathToDestination) => {
     const writeStream = fs.createWriteStream(
       path.join(pathToDestination, fileName)
     );
+
     const brotli = zlib.createBrotliCompress();
 
     const stream = readStream.pipe(brotli).pipe(writeStream);
+
+    readStream.on('error', () => {
+      console.error('Operation failed');
+    });
+
+    writeStream.on('error', () => {
+      console.error('Operation failed');
+    });
 
     stream.on('finish', () => {
       console.log('File successfully compressed');
@@ -42,6 +52,14 @@ const unZipFile = async (pathToFile, pathToDestination) => {
 
     const brotli = zlib.createBrotliDecompress();
     const stream = readStream.pipe(brotli).pipe(writeStream);
+
+    readStream.on('error', () => {
+      console.error('Operation failed');
+    });
+
+    writeStream.on('error', () => {
+      console.error('Operation failed');
+    });
 
     stream.on('finish', () => {
       console.log('File successfully decompressed');

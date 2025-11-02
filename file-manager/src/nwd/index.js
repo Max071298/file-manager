@@ -10,6 +10,8 @@ const getls = async (path) => {
       const Type = item.isFile() ? 'file' : 'directory';
       tableData.push({ Name, Type });
     });
+
+    tableData.sort((a, b) => a.Type.localeCompare(b.Type));
     console.table(tableData);
   } catch (_) {
     console.error('Operation failed');
@@ -23,8 +25,10 @@ const upDir = (currentDir) => {
   const newPass = splitedPass.join('\\');
 
   try {
-    process.chdir(newPass);
-  } catch (_) {
+    splitedPass.length === 1
+      ? process.chdir(newPass + '\\')
+      : process.chdir(newPass);
+  } catch (_cd) {
     console.error('Operation failed');
   }
 };

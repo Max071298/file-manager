@@ -15,7 +15,7 @@ const makeFarewell = async () => {
   console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
 };
 
-const getPath = async () => {
+const getPath = () => {
   console.log(`You are currently in ${process.cwd()}`);
 };
 
