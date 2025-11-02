@@ -1,3 +1,4 @@
+import fs from 'fs/promises';
 const getName = async () => {
   const cliData = await process.argv;
   const name = cliData.find((item) => item.startsWith('--username='));
@@ -40,10 +41,22 @@ const getCLIArgs = (cli) => {
   return cliArgs;
 };
 
+const isFile = async (pathToFile) => {
+  const stats = await fs.stat(pathToFile);
+  return stats.isFile;
+};
+
+const isDirectory = async (pathToDir) => {
+  const stats = await fs.stat(pathToDir);
+  return stats.isDirectory;
+};
+
 export default {
   makeGreeting,
   makeFarewell,
   getPath,
   getCLICommand,
   getCLIArgs,
+  isFile,
+  isDirectory,
 };

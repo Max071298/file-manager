@@ -1,12 +1,12 @@
 import crypto from 'crypto';
-import fs, { stat } from 'fs';
+import fs from 'fs';
 import { stdout } from 'process';
 
 const calculateHash = (pathToFile) => {
   fs.stat(pathToFile, (e, stats) => {
     if (e) console.error('Operation failed');
     if (!stats.isFile()) {
-      console.error('Operation failed');
+      console.error('Invalid input');
     } else {
       try {
         const hash = crypto.createHash('sha256');

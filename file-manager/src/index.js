@@ -7,6 +7,7 @@ import { stdin as input, stdout as output } from 'process';
 import path from 'path';
 import fo from './fo/index.js';
 import hash from './hash/index.js';
+import zip from './zip/index.js';
 
 const rl = readline.createInterface({ input, output });
 
@@ -80,10 +81,15 @@ const startFM = async () => {
           case 'cp':
             fo.copyFile(...args);
             break;
-          case 'mv': {
+          case 'mv':
             fo.moveFile(...args);
             break;
-          }
+          case 'compress':
+            await zip.zipFile(...args);
+            break;
+          case 'decompress':
+            await zip.unZipFile(...args);
+            break;
         }
       }
     }
