@@ -7,6 +7,7 @@ import { stdin as input, stdout as output } from 'process';
 import fo from './fo/index.js';
 import hash from './hash/index.js';
 import zip from './zip/index.js';
+import dio from './dio/index.js';
 
 const rl = readline.createInterface({ input, output });
 
@@ -61,7 +62,7 @@ const startFM = async () => {
           await fo.addFile(args[0]);
           break;
         case 'mkdir':
-          await fo.makeDir(args[0]);
+          await dio.makeDir(args[0]);
           break;
         case 'rm':
           await fo.deleteFile(args[0]);
