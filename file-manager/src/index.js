@@ -6,6 +6,7 @@ import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
 import path from 'path';
 import fo from './fo/index.js';
+import hash from './hash/index.js';
 
 const rl = readline.createInterface({ input, output });
 
@@ -64,6 +65,9 @@ const startFM = async () => {
             break;
           case 'rm':
             await fo.deleteFile(args[0]);
+            break;
+          case 'hash':
+            await hash.calculateHash(args[0]);
             break;
         }
       }
