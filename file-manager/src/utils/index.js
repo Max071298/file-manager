@@ -15,8 +15,7 @@ const makeFarewell = async () => {
 };
 
 const getPath = async () => {
-  const _dirname = await import.meta.dirname;
-  console.log(`You are currently in ${_dirname}`);
+  console.log(`You are currently in ${process.cwd()}`);
 };
 
 export default { makeGreeting, makeFarewell, getPath };
