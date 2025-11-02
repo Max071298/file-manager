@@ -18,4 +18,32 @@ const getPath = async () => {
   console.log(`You are currently in ${process.cwd()}`);
 };
 
-export default { makeGreeting, makeFarewell, getPath };
+const getCLICommand = (cli) => {
+  const splittedCLI = cli.split(' ');
+  return splittedCLI[0] === 'os' ? cli : splittedCLI[0];
+};
+
+const getCLIArgs = (cli) => {
+  let splittedCLI;
+  if (cli.includes('"')) {
+    splittedCLI = cli.split(' "');
+  } else if (cli.includes("'")) {
+    splittedCLI = cli.split(" '");
+  } else {
+    splittedCLI = cli.split(' ');
+  }
+
+  let cliArgs = splittedCLI
+    .slice(1, splittedCLI.length)
+    .map((item) => item.replaceAll('"', '').replaceAll("'", ''));
+
+  return cliArgs;
+};
+
+export default {
+  makeGreeting,
+  makeFarewell,
+  getPath,
+  getCLICommand,
+  getCLIArgs,
+};

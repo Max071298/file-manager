@@ -35,7 +35,6 @@ const changeDir = async (path) => {
   } catch {
     console.error('Invalid input');
   }
-  u;
 };
 
 export default { getls, upDir, changeDir };
